@@ -3,7 +3,7 @@
 set test=test0
 
 REM Compile the testing module using Clang and assemble using LLVM
-clang++ -emit-llvm -I"F:\Microsoft Visual Studio 2014\VC\include" -I"C:\Program Files (x86)\Windows Kits\10\Include\10.0.14393.0\ucrt" -S %test%_checker.c -o %test%_checker.s
+clang++ -Wno-everything -emit-llvm -I"F:\Microsoft Visual Studio 2014\VC\include" -I"C:\Program Files (x86)\Windows Kits\10\Include\10.0.14393.0\ucrt" -S %test%_checker.c -o %test%_checker.s
 llvm-as %test%_checker.s -o %test%_checker.bc
 
 REM Compile the target using our compiler and assemble using LLVM

@@ -154,19 +154,32 @@ ty::status compile_to_ir(path const& target, path const& output)
   return status;
 }
 
+void trim_source_impl(std::string const& input, std::string& out)
+{
+  auto last = '?';
+  for(auto c : input)
+  {
+    if (c != '\t' && c != '\n' && (!iswspace(last) || !iswspace(c)))
+    {
+      out.push_back(c);
+    }
+    last = c;
+  }
+}
+
 //! Trims unnecessary whitespace from source code
 std::string trim_source(std::string const& input)
 {
-  auto last = '?';
   std::string out;
-  for(auto c : input)
-  {
-    if(c != '\t' && c != '\n' && (!iswspace(last) || !iswspace(c)))
-      out.push_back(c);
-    last = c;
-  }
+  trim_source_impl(input, out);
   return out;
 }
+
+void trim_source(std::string& input)
+{
+  input = trim_source(static_cast<std::string const&>(input));
+}
+
 
 std::string compile_to_ir(std::string const& input, ty::status& status)
 {
